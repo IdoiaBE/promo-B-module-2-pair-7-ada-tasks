@@ -18,26 +18,29 @@ const tasks = [
   ];
 
 
-// Pintar las tareas que ya existen en el array con los checkbox y tachadas
-for (const task of tasks) {
-  if (task.completed === true) {
-      taskList.innerHTML += 
+// Pintar las tareas que ya existen en el array con los checkbox y tachadas (y guardar la funcion para reutilizarla)
+function renderTask(){
+  taskList.innerHTML=``;
+  for (const task of tasks) {
+    if (task.completed === true) {
+        taskList.innerHTML += 
+          `<li>
+            <input id="${task.id}" type="checkbox" checked/>
+            <label for="${task.id}" class='tachado'>${task.name}</label>
+          </li>`;
+    } else {
+        taskList.innerHTML +=
         `<li>
-          <input id="${task.id}" type="checkbox" checked/>
-          <label for="${task.id}" class='tachado'>${task.name}</label>
-        </li>`;
-  } else {
-      taskList.innerHTML +=
-      `<li>
-          <input id="${task.id}" type="checkbox"/>
-          <label for="${task.id}">${task.name}</label>
-        </li>`
-        ;
+            <input id="${task.id}" type="checkbox"/>
+            <label for="${task.id}">${task.name}</label>
+          </li>`
+          ;
+    };
   };
-};
+}
 
+renderTask();
 
-// function changeStatus() {
 
 //   // Busca la tarea que tenga el id `taskId` en el array `tasks`
 //   // Una vez que has obtenido la tarea, actualiza la propiedad `completed`
@@ -49,23 +52,25 @@ for (const task of tasks) {
 // Add event listener
 const handleClickList = (event) => {
   const taskId = parseInt(event.target.id); // Obtengo el id del checkbox clickado por la usuaria
-  if (taskId) {
-    const sameID = tasks.find((task) => task.id === taskId); // Busca un elemento en el array que tenga el mismo id que este checkbox
-    console.log(sameID);
-    
-    if (task.id === checked) { // -->>> Comprobar si está bien
-      classList.remove('tachado');
-    // -->>> Definir cambiar completed en array
-    } else {
-      classList.add('tachado');
-    // -->>> Definir cambiar completed en array
-    };
 
-  } else if (!taskId) {
+  if (!taskId) {
     return;
   } // Si no ha pulsado en el checkbox, no queremos hacer nada y salimos de la función
-};
 
+  const positionId = tasks.findIndex((task) => task.id === taskId); // Buscar la posición del objeto en el array que tenga el mismo id que ese checkbox
+  console.log(positionId)
+
+
+  if (positionId.completed === true){
+    positionId.completed === false
+  } else {
+    positionId.completed === true
+  };
+
+  console.log (positionId.completed);
+   
+  renderTask();
+};
 
 
 taskList.addEventListener("click", handleClickList);
