@@ -17,7 +17,6 @@ const tasks = [
     },
   ];
 
-
 // Pintar las tareas que ya existen en el array con los checkbox y tachadas (y guardar la funcion para reutilizarla)
 function renderTask(){
   taskList.innerHTML=``;
@@ -41,15 +40,16 @@ function renderTask(){
 
 renderTask();
 
+//PASOS
+// 1. poner checkbox a las tareas que ya tenemos
+// 2. añadir addeventlistener que cambie la propiedad completed de true a false o viceversa y se pinte o no el checkbox
 
 //   // Busca la tarea que tenga el id `taskId` en el array `tasks`
 //   // Una vez que has obtenido la tarea, actualiza la propiedad `completed`
 //   // Pinta de nuevo las tareas en el html
-// };
 
 
 
-// Add event listener
 const handleClickList = (event) => {
   const taskId = parseInt(event.target.id); // Obtengo el id del checkbox clickado por la usuaria
 
@@ -58,25 +58,22 @@ const handleClickList = (event) => {
   } // Si no ha pulsado en el checkbox, no queremos hacer nada y salimos de la función
 
   const positionId = tasks.findIndex((task) => task.id === taskId); // Buscar la posición del objeto en el array que tenga el mismo id que ese checkbox
-  console.log(positionId)
+  console.log(positionId);
 
+  // tasks[positionId].completed = !tasks[positionId].completed;
 
-  if (positionId.completed === true){
-    positionId.completed === false
+  if (tasks[positionId].completed){
+    //Si la propiedad completed del objeto posicionado es true, modificarla a false 
+    tasks[positionId].completed = false
   } else {
-    positionId.completed === true
+    //Si no, modificarla a true 
+    tasks[positionId].completed = true
   };
-
-  console.log (positionId.completed);
    
-  renderTask();
+  renderTask(); //volver a pintar las tareas con el checkbox actualizado
 };
 
-
+//evento de click en el checkbox
 taskList.addEventListener("click", handleClickList);
 
 
-// 1. poner checkbox a las tareas que ya tenemos
-// 2. añadir addeventlistener que cambie la propiedad completed de true a false o viceversa y se pinta el checkbox
-// 3. según completed sea true o false, se añade la clase 'tachado' 
-// type="checkbox";
