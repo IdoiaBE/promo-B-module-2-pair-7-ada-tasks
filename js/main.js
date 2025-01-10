@@ -3,6 +3,8 @@
 const taskList = document.querySelector('.task-list');
 const btnAdd = document.querySelector('.js-btn-add');
 const input = document.querySelector('.js-text-task-add');
+const searchField = document.querySelector('.js-text-task-filter');
+const searchButton = document.querySelector('.js-btn-filter');
 
 
 // Listado de tareas
@@ -15,13 +17,14 @@ const tasks = [
       completed: false,
       id: 4,
     },
+    { name: "Reciclar pilas", completed: true, id: 5 },
   ];
 
 
 // Pintar las tareas que ya existen en el array con los checkbox y tachadas (y guardar la funcion para reutilizarla)
-function renderTask(){
+function renderTask(taskArray){
   taskList.innerHTML=``;
-  for (const task of tasks) {
+  for (const task of taskArray) {
     if (task.completed === true) {
         taskList.innerHTML += 
           `<li>
@@ -39,14 +42,7 @@ function renderTask(){
   };
 }
 
-renderTask();
-
-
-//   // Busca la tarea que tenga el id `taskId` en el array `tasks`
-//   // Una vez que has obtenido la tarea, actualiza la propiedad `completed`
-//   // Pinta de nuevo las tareas en el html
-// };
-
+renderTask(tasks);
 
 
 // Add event listener
@@ -58,16 +54,13 @@ const handleClickList = (event) => {
   } // Si no ha pulsado en el checkbox, no queremos hacer nada y salimos de la función
 
   const positionId = tasks.findIndex((task) => task.id === taskId); // Buscar la posición del objeto en el array que tenga el mismo id que ese checkbox
-  console.log(positionId)
 
 
-  if (positionId.completed === true){
-    positionId.completed === false
+  if ( tasks[positionId].completed){
+    tasks[positionId].completed = false;
   } else {
-    positionId.completed === true
+    tasks[positionId].completed = true;
   };
-
-  console.log (positionId.completed);
    
   renderTask();
 };
@@ -76,7 +69,22 @@ const handleClickList = (event) => {
 taskList.addEventListener("click", handleClickList);
 
 
-// 1. poner checkbox a las tareas que ya tenemos
-// 2. añadir addeventlistener que cambie la propiedad completed de true a false o viceversa y se pinta el checkbox
-// 3. según completed sea true o false, se añade la clase 'tachado' 
-// type="checkbox";
+
+// FILTRAR TAREAS
+
+function findTask(value) {
+  const filteredTask = tasks.filter((task) => task.name.toLowerCase().includes(value.toLowerCase()));
+  console.log(filteredTask);
+  renderTask(filteredTask);
+}
+
+function handleClickSearch(event) {
+  event.preventDefault();
+  const searchValue = searchField.value.trim(); // con trim() recortamos los espacios del valor que se ha introducido
+  console.log(searchValue);
+  findTask(searchValue);
+};
+
+searchButton.addEventListener('click', handleClickSearch);
+
+// Revisar error (tras filtrar, al marcar o desmarcar checkbox)
